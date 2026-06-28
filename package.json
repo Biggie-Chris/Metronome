@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
+    "preview": "vite preview --host",
     "electron:dev": "set NODE_ENV=dev&& vite build && electron .",
     "package": "node scripts/make-icon.cjs && vite build && electron-packager . Metronome --platform=win32 --arch=x64 --out=release --icon=public/icon.ico --overwrite"
   },
