@@ -1,13 +1,17 @@
 const CACHE = 'metronome-v1'
-const ASSETS = [
-  '.',
-  'index.html',
-  'manifest.json',
+
+// Pre-cache core files for instant offline launch
+const PRE_CACHE = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
 ]
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(ASSETS))
+    caches.open(CACHE).then((cache) => cache.addAll(PRE_CACHE))
   )
   self.skipWaiting()
 })
@@ -21,8 +25,18 @@ self.addEventListener('activate', (e) => {
   self.clients.claim()
 })
 
+// Cache every successful fetch — works offline after first visit
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then((cached) => cached || fetch(e.request))
+    caches.match(e.request).then((cached) => {
+      if (cached) return cached
+
+      return fetch(e.request).then((response) => {
+        if (!response || response.status !== 200) return response
+        const clone = response.clone()
+        caches.open(CACHE).then((cache) => cache.put(e.request, clone))
+        return response
+      })
+    })
   )
 })
