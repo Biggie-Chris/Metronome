@@ -1,0 +1,13 @@
+src
+node_modules
+.claude
+.git
+.gitignore
+*.bat
+*.md
+public
+scripts
+tsconfig.json
+vite.config.ts
+package-lock.json
+release

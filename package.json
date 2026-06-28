@@ -1,12 +1,14 @@
 {
   "name": "metronome",
   "version": "1.0.0",
-  "description": "",
   "type": "module",
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "electron:dev": "set NODE_ENV=dev&& vite build && electron .",
+    "package": "node scripts/make-icon.cjs && vite build && electron-packager . Metronome --platform=win32 --arch=x64 --out=release --icon=public/icon.ico --overwrite"
   },
   "dependencies": {
     "react": "^19.2.7",
@@ -17,6 +19,11 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
+    "electron": "^42.5.0",
+    "electron-builder": "^26.15.3",
+    "electron-packager": "^17.1.2",
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.35.2",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
     "vite": "^8.1.0"
